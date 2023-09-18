@@ -9,22 +9,22 @@ services:
     image: postgres:13.10
     env_file: .env
     volumes:
-      - pg_data_production:var/lib/postgresql/data
+      - pg_data_production:/var/lib/postgresql/data
   backend:
     image: deadrino/taski_backend
     env_file: .env
     volumes:
-      - static:/static
+      - static_volume:/backend_static
   frontend:
     image: deadrino/taski_frontend  # Качаем с Docker Hub
     env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
-      - static:/static
+      - static_volume:/frontend_static
   gateway:
     image: deadrino/taski_gateway  # Качаем с Docker Hub
     env_file: .env
     volumes:
-      - static:/static
+      - static_volume:/staticfiles/
     ports:
       - 8000:80
